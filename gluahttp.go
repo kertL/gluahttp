@@ -178,6 +178,9 @@ func (h *httpModule) doRequest(L *lua.LState, method string, url string, options
 		// Set these last. That way the code above doesn't overwrite them.
 		if reqHeaders, ok := options.RawGet(lua.LString("headers")).(*lua.LTable); ok {
 			reqHeaders.ForEach(func(key lua.LValue, value lua.LValue) {
+				if (strings.toUpper(key.String())=="HOST"){
+					req.Host=value.String()
+				}
 				req.Header.Set(key.String(), value.String())
 			})
 		}
